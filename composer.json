@@ -1,0 +1,5 @@
+{
+    "name": "teo/post-project",
+    "require": {"phpmailer/phpmailer": "^5.2"
+    }
+}

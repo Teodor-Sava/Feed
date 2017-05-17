@@ -14,14 +14,14 @@
 
         <div class="panel panel-default top-buffer">
             <div class="panel-heading">
-                <h3 class="panel-title"><?php if (isset($_SESSION['user'])) {
+                <h3 class="panel-title"><?php if (isset($_SESSION['user'])&& isset($_SESSION['username'])) {
                         echo ucfirst($_SESSION['user']['username']) . "'s ";
                     }
                     ?>Dashboard</h3>
             </div>
             <div class="panel-body">
                 <h2><?php echo $message; ?></h2>
-                <?php if (isset($_SESSION['user']) && $_SESSION['user']['confirmed'] != 0) {
+                <?php if (isset($_SESSION['user']) && isset($_SESSION['user']['confirmed']) && $_SESSION['user']['confirmed'] != 0) {
                     foreach ($postText as $post): ?>
                         <div class="panel panel-default top-buffer">
                             <div class="panel-heading">
@@ -38,7 +38,7 @@
                         </div>
                     <?php endforeach;
                 } ?>
-                <?php if ($_SESSION['logged_in'] === false) {
+                <?php if (isset($_SESSION['logged_in'])&& $_SESSION['logged_in'] === false) {
 
                     echo "<br/><h3>" . "<a href='login.php'>" . "Click to go to login " . "</a></h3>";
 

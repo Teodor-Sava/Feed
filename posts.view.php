@@ -5,6 +5,7 @@ if ($_SESSION['logged_in'] !== true) {
 include('includes/header.php');
 require_once ('includes/functions.php');
 $posts = require_once('posts.php');
+
 ?>
     <style>
         .top-buffer {

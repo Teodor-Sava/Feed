@@ -7,7 +7,7 @@ ini_set('session.use_only_cookies', 1);
 $config = require_once 'includes/config.php';
 
 require_once 'includes/functions.php';
-if ((isset($_COOKIE['user']) && $_COOKIE['user'] != '') || (!isset($_SESSION['user']) && $_SESSION['user'] != '')) {
+if (!isset($_SESSION['user'])) {
     $message = 'You must be logged in to access this page';
     $_SESSION['logged_in'] = false;
 } else {

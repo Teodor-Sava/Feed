@@ -57,22 +57,37 @@ function createPDO($config)
 {
     $mysql_hostname = 'localhost';
 
-    /*** mysql username ***/
     $mysql_username = $config['database']['username'];
 
-    /*** mysql password ***/
     $mysql_password = $config['database']['password'];
 
-    /*** database name ***/
     $mysql_dbname = $config['database']['name'];
 
 
-    /*** select the users name from the database ***/
     $dbh = new PDO("mysql:host=$mysql_hostname;dbname=$mysql_dbname", $mysql_username, $mysql_password);
-    /*** $message = a message saying we have connected ***/
 
-    /*** set the error mode to excptions ***/
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
 }
 
+function users()
+{
+    $config = require_once 'config.php';
+    $mysql_hostname = 'localhost';
+
+    $mysql_username = $config['database']['username'];
+
+    $mysql_password = $config['database']['password'];
+
+    $mysql_dbname = $config['database']['name'];
+
+    $dbh = new PDO("mysql:host=$mysql_hostname;dbname=$mysql_dbname", $mysql_username, $mysql_password);
+
+    $sql = "SELECT username FROM users";
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+}

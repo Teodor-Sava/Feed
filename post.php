@@ -9,20 +9,21 @@ $dbh = createPDO($config);
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET' :
-        $post_id = trim($_GET['post_id'], FILTER_SANITIZE_STRING);
+        $post_id = $_GET['post_id'];
         $stmt = $dbh->prepare('SELECT post_id, title, content,username FROM posts WHERE post_id = :post_id LIMIT 1');
 
         $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
-        /*** bind the parameters ***/
+
         $stmt->execute();
-        /*** check for a result ***/
+
         $post = $stmt->fetch();
+
         $stmt = $dbh->prepare('SELECT content ,post_id , username FROM comments WHERE post_id = :post_id');
 
         $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
-        /*** bind the parameters ***/
+
         $stmt->execute();
-        /*** check for a result ***/
+
         $comment = $stmt->fetchAll();
         return array($post, $comment);
         break;

@@ -1,6 +1,7 @@
 <?php include('includes/header.php'); ?>
 <?php include('includes/navbar.php') ?>
 
+
 <style>
     .top-buffer {
         margin-top: 20px;

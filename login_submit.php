@@ -29,7 +29,7 @@ elseif (ctype_alnum($_POST['password']) != true) {
 
         $dbh = createPDO($config);
         /*** prepare the select statement ***/
-        $stmt = $dbh->prepare('SELECT user_id, username, password ,salt,avatar,confirmed FROM users 
+        $stmt = $dbh->prepare('SELECT user_id, username, password ,salt,avatar,confirmed,role FROM users 
                     WHERE username = :username');
 
         /*** bind the parameters ***/
@@ -53,19 +53,10 @@ elseif (ctype_alnum($_POST['password']) != true) {
 
         } /*** if we do have a result, all is well ***/
         else {
-            $cookie_name = "user";
-            $cookie_value = $user_id['id'];
-            $expiry = time() + (86400 * 30);
 
-            if ($remember == 'true') {
-                setcookie($cookie_name, $cookie_value, $expiry);
-            }
-            //$user_id['salt'] = "";
-            session_start();
             $_SESSION['user'] = $user_id;
             $_SESSION['logged_in'] = true;
             $message = 'You are now logged in';
-
 
         }
 

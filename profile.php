@@ -9,14 +9,18 @@ try {
 
     $user_id = $_SESSION['user']['user_id'];
 
+    $acceptedExtensions = array('image/png', 'image/jpeg', 'image/gif');
     $avatar = addslashes($_FILES['image']['tmp_name']);
-    if ($avatar < 2000000) {
-        $avatar = file_get_contents($avatar);
-        $avatar = base64_encode($avatar);
+    if (in_array(mime_content_type($avatar), $acceptedExtensions)) {
+        if ($avatar < 2000000) {
+            $avatar = file_get_contents($avatar);
+            $avatar = base64_encode($avatar);
+        } else {
+            $avatar = NULL;
+        }
     } else {
         $avatar = NULL;
     }
-
 
     $oldPassword = $_POST['oldpassword'];
 
@@ -50,7 +54,7 @@ try {
                 $stmt->bindParam(':password', $newPassword, PDO::PARAM_STR);
                 $stmt->bindParam(':avatar', $avatar, PDO::PARAM_LOB);
                 $stmt->execute();
-                //if (move_uploaded_file($_FILES['tmp_name']['name'], $target)) {
+
                 $msg = "image uploaded successfully";
             }
             //$message = "You have updated your password and avatar";
@@ -68,12 +72,12 @@ try {
 
             $message = "You have updated your avatar";
         } else {
-            $message = "Image size bigger than 2 MB . There had been no changes made";
+            $message = "Image size bigger than 2 MB or image type was not right . There had been no changes made";
         }
 
     }
 } catch (Exception $exception) {
-    $message = $exception->getMessage();
+    $message = "A problem was encountered please try again";
 }
 ?>
 

@@ -10,7 +10,7 @@ require_once 'includes/functions.php';
 if (isset($_POST['validation'])) {
     $message = 'what are you trying big boy ?';
 }
-if (!isset($_POST['username'], $_POST['password'], $_POST['form_token'])) {
+if (!isset($_POST['username'], $_POST['password'],$_POST['email'],$_POST['form_token'])) {
     $message = 'Please enter a valid username and password';
 } /*** check the form token is valid ***/
 elseif ($_POST['form_token'] != $_SESSION['form_token']) {
@@ -57,20 +57,27 @@ elseif (ctype_alnum($_POST['password']) != true) {
         $mail->FromName = 'Teodor';
         $mail->addAddress($email);                 // Add a recipient
         $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-        $mail->Subject = 'Confirm your account at YoungBoy';
-        /*** set the error mode to excptions ***/
+        $mail->Subject = 'Confirm your account';
+
         $key = $username . date('mY');
         $key = md5($key);
+
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        if($username === "admin"){
+            $role = "admin";
+        }else {
+            $role = "user";
+        }
         /*** prepare the insert ***/
-        $stmt = $dbh->prepare("INSERT INTO users (username, password ,salt,keyg ) VALUES (:username, :password, :salt,:keyg )");
+        $stmt = $dbh->prepare("INSERT INTO users (username, password ,salt,keyg,role ) VALUES (:username, :password, :salt,:keyg ,:role )");
 
         /*** bind the parameters ***/
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR, 40);
         $stmt->bindParam(':salt', $salt, PDO::PARAM_STR);
         $stmt->bindParam(':keyg', $key, PDO::PARAM_STR);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -81,7 +88,6 @@ elseif (ctype_alnum($_POST['password']) != true) {
 
         unset($_SESSION['form_token']);
 
-        $message = 'New user added. A mail was sent to confirm you account to the address ' . $email;
     } catch (Exception $e) {
         /*** check if the username already exists ***/
         if ($e->getCode() == 23000) {
@@ -99,11 +105,12 @@ elseif (ctype_alnum($_POST['password']) != true) {
 
 <div class="jumbotron">
     <div class="container">
-        <h3><?php echo $message; ?>
-            <?php
-            if ($mail->send() && $message === 'New user added. A mail was sent to confirm you account to the address ' . $email) {
+        <h3><?php
+            if ($mail->send()) {
+                echo $message = 'New user added. A mail was sent to confirm you account to the address ' . $email;
                 header('refresh:3 ;url=login.php');
             } else {
+                echo $message = 'The mail was not send';
                 header('refresh:4; url=register.php');
             }
             ?>

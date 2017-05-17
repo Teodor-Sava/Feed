@@ -22,11 +22,12 @@
                     echo "<li><a href='posts.view.php'>Posts</a></li>
                           <li><a href='profile.view.php'>Profile</a></li>
                           <li><a href='logout.php'>Logout</a></li>"
-
-
                 ?>
+                <?php if (isset($_SESSION['user'],$_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin') {
+                    echo "<li><a href='admin.view.php'>Admin</a></li>";
+                } ?>
 
             </ul>
-        </div><!--/.nav-collapse -->
+        </div><!--/.nav - collapse-->
     </div>
 </nav>

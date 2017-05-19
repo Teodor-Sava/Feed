@@ -28,16 +28,12 @@ if (!isset($_SESSION['user'])) {
         $stmt = $dbh->prepare("SELECT post_id , title , content,username FROM posts 
         WHERE user_id = :user_id ");
 
-        /*** bind the parameters ***/
         $stmt->bindParam(':user_id', $_SESSION['user']['user_id'], PDO::PARAM_INT);
 
-        /*** execute the prepared statement ***/
         $stmt->execute();
 
-        /*** check for a result ***/
         $postText = $stmt->fetchAll();
 
-        /*** if we have no something is wrong ***/
         if ($username == false) {
             $message = 'Access Error';
         } elseif (!isset($_COOKIE)) {

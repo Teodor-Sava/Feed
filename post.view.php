@@ -19,15 +19,15 @@ $post = require_once('post.php');
             <div class="panel-body">
                 <div class="panel panel-default top-buffer">
                     <div class="panel-heading">
-                        <h2 class="panel-title"><?php echo $post[0]['title']; ?></h2>
+                        <h2 class="panel-title"><?php echo htmlspecialchars($post[0]['title']); ?></h2>
                     </div>
                     <div class="panel-body">
-                        <p><?php echo $post[0]['content'] ?></p>
+                        <p><?php echo htmlspecialchars($post[0]['content']) ?></p>
                         <?php foreach ($post[1] as $comment): ?>
 
                             <div class="panel panel-default top-buffer">
                                 <div class="panel-body">
-                                    <p><?php echo $comment['content'] ?></p>
+                                    <p><?php echo htmlspecialchars($comment['content']) ?></p>
                                 </div>
                                 <div class="panel-footer">
                                     <?php echo "Posted by @".$comment['username'] ?>

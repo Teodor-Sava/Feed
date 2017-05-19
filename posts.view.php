@@ -25,10 +25,10 @@ $posts = require_once('posts.php');
                     <?php foreach ($posts as $post): ?>
                         <div class="panel panel-default top-buffer">
                             <div class="panel-heading">
-                                <h2 class="panel-title"><?php echo $post['title']; ?></h2>
+                                <h2 class="panel-title"><?php echo htmlspecialchars($post['title']); ?></h2>
                             </div>
                             <div class="panel-body">
-                                <p><?php echo $post['content'] ?></p>
+                                <p><?php echo htmlspecialchars($post['content']) ?></p>
                             </div>
                             <div class="panel-footer">
                                 <?php echo "Posted by " . "@" . $post['username']; displayAvatar($post['username']) ?>

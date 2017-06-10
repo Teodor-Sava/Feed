@@ -28,6 +28,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         return array($post, $comment);
         break;
     case 'POST':
+        if ($_POST['form_token'] != $_SESSION['form_token']) {
+            $message = 'Invalid form submission';
+        }
         $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
         $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
         $user_id = filter_var($_POST['user_id'], FILTER_SANITIZE_STRING);

@@ -1,11 +1,15 @@
 <?php
+$form_token = md5(uniqid('auth', true));
 
+
+$_SESSION['form_token'] = $form_token;
 
 if ($_SESSION['logged_in'] === true) {
     header('Location:index.php');
 }
 include('includes/header.php');
 ?>
+
 
 <?php include('includes/navbar.php') ?>
 <div class="jumbotron">
@@ -21,11 +25,9 @@ include('includes/header.php');
                 <input class="form-control" type="password" id="password" name="password" value="" maxlength="20"/>
             </div>
             <div class="form-group">
-                <label>&nbsp;</label><input type="checkbox" name="autologin" value="true">Remember Me<br />
-            </div>
-            <div class="form-group">
                 <input class="btn btn-default" type="submit" value="→ Login"/>
             </div>
+            <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
         </form>
 
     </div>

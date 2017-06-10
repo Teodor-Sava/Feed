@@ -1,12 +1,12 @@
 <?php
 
 $config = require_once 'includes/config.php';
-
+require 'includes/functions.php';
 try {
     if ($_SESSION['user']['confirmed'] != 0) {
         $message = 'you are already confirmed';
     } else {
-        $dbg = createPDO($config);
+        $dbh = createPDO($config);
 
         switch ($_SERVER['REQUEST_METHOD']) {
 

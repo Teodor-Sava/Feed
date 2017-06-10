@@ -6,6 +6,8 @@ require_once 'includes/functions.php';
 /*** check that both the username, password have been submitted ***/
 if (!isset($_POST['username'], $_POST['password'])) {
     $message = 'Please enter a valid username and password';
+} elseif ($_POST['form_token'] != $_SESSION['form_token']) {
+    $message = 'Invalid form submission';
 } /*** check the username is the correct length ***/
 elseif (strlen($_POST['username']) > 20 || strlen($_POST['username']) < 4) {
     $message = 'Incorrect Length for Username';
@@ -28,7 +30,7 @@ elseif (ctype_alnum($_POST['password']) != true) {
     try {
 
         $dbh = createPDO($config);
-        /*** prepare the select statement ***/
+
         $stmt = $dbh->prepare('SELECT user_id, username, password ,salt,avatar,confirmed,role FROM users 
                     WHERE username = :username');
 

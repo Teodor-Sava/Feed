@@ -1,4 +1,8 @@
 <?php
+$form_token = md5(uniqid('auth', true));
+
+
+$_SESSION['form_token'] = $form_token;
 
 if ($_SESSION['logged_in'] !== true) {
     header('Location:index.php');
@@ -39,6 +43,7 @@ $post = require_once('post.php');
                     <div class="panel-footer">
                         <?php echo "Posted by " . "@" . $post[0]['username']; ?>
                     </div>
+                    <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
                 </div>
             </div>
 

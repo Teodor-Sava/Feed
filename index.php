@@ -1,12 +1,8 @@
 <?php
-ob_start();
 ini_set("session.cookie_httponly", 1);
-ini_set('session.use_only_cookies', 1);
-
-
 $config = require_once 'includes/config.php';
-
 require_once 'includes/functions.php';
+
 if (!isset($_SESSION['user'])) {
     $message = 'You must be logged in to access this page';
     $_SESSION['logged_in'] = false;
@@ -44,7 +40,8 @@ if (!isset($_SESSION['user'])) {
 
     } catch (Exception $e) {
         /*** if we are here, something is wrong in the database ***/
-        $message = 'We are unable to process your request. Please try again later"';
+
+        $message = 'We are unable to process your request. Please try again later';
     }
 }
 

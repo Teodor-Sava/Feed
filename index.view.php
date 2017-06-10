@@ -1,7 +1,6 @@
 <?php include('includes/header.php'); ?>
 <?php include('includes/navbar.php') ?>
 
-
 <style>
     .top-buffer {
         margin-top: 20px;
@@ -21,7 +20,7 @@
             </div>
             <div class="panel-body">
                 <h2><?php echo $message; ?></h2>
-                <?php if (isset($_SESSION['user']) && isset($_SESSION['user']['confirmed']) && $_SESSION['user']['confirmed'] != 0) {
+                <?php if (isset($_SESSION['user'])  && $_SESSION['user']['confirmed'] !=0) {
                     foreach ($postText as $post): ?>
                         <div class="panel panel-default top-buffer">
                             <div class="panel-heading">

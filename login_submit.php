@@ -12,16 +12,8 @@ if (!isset($_POST['username'], $_POST['password'])) {
 elseif (strlen($_POST['username']) > 20 || strlen($_POST['username']) < 4) {
     $message = 'Incorrect Length for Username';
 } /*** check the password is the correct length ***/
-elseif (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 4) {
+elseif (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
     $message = 'Incorrect Length for Password';
-} /*** check the username has only alpha numeric characters ***/
-elseif (ctype_alnum($_POST['username']) != true) {
-    /*** if there is no match ***/
-    $message = "Username must be alpha numeric";
-} /*** check the password has only alpha numeric characters ***/
-elseif (ctype_alnum($_POST['password']) != true) {
-    /*** if there is no match ***/
-    $message = "Password must be alpha numeric";
 } else {
     /*** if we are here the data is valid and we can insert it into database ***/
     $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);

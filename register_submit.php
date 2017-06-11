@@ -10,7 +10,7 @@ require_once 'includes/functions.php';
 if (isset($_POST['validation'])) {
     $message = 'what are you trying big boy ?';
 }
-if (!isset($_POST['username'], $_POST['password'],$_POST['email'],$_POST['form_token'])) {
+if (!isset($_POST['username'], $_POST['password'], $_POST['email'], $_POST['form_token'])) {
     $message = 'Please enter a valid username and password';
 } /*** check the form token is valid ***/
 elseif ($_POST['form_token'] != $_SESSION['form_token']) {
@@ -19,19 +19,16 @@ elseif ($_POST['form_token'] != $_SESSION['form_token']) {
 elseif (strlen($_POST['username']) > 20 || strlen($_POST['username']) < 4) {
     $message = 'Incorrect Length for Username';
 } /*** check the password is the correct length ***/
-elseif (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 4) {
+elseif (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 8) {
     $message = 'Incorrect Length for Password';
 } /*** check the password is not the same as username***/
 elseif ($_POST['password'] === $_POST['username']) {
     $message = 'User cannot be the same as password';
 } /*** check the username has only alpha numeric characters ***/
-elseif (ctype_alnum($_POST['username']) != true) {
-    /*** if there is no match ***/
-    $message = "Username must be alpha numeric";
-} /*** check the password has only alpha numeric characters ***/
-elseif (ctype_alnum($_POST['password']) != true) {
-    /*** if there is no match ***/
-    $message = "Password must be alpha numeric";
+elseif (!preg_match('/[\d!$%^&]+/', $_POST['password'])) {
+    $message = "The password must contain at least one special character";
+} elseif (!preg_match('/[A-Z]+/', $_POST['password'])) {
+    $message = "The password must contain at least one capital letter";
 } else {
     /*** if we are here the data is valid and we can insert it into database ***/
     $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
@@ -64,9 +61,9 @@ elseif (ctype_alnum($_POST['password']) != true) {
 
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if($username === "admin"){
+        if ($username === "admin") {
             $role = "admin";
-        }else {
+        } else {
             $role = "user";
         }
         /*** prepare the insert ***/
@@ -106,11 +103,11 @@ elseif (ctype_alnum($_POST['password']) != true) {
 <div class="jumbotron">
     <div class="container">
         <h3><?php
-            if ($mail->send()) {
+            if (isset($mail) && $mail->send()) {
                 echo $message = 'New user added. A mail was sent to confirm you account to the address ' . $email;
                 header('refresh:3 ;url=login.php');
             } else {
-                echo $message = 'The mail was not send';
+                echo $message;
                 header('refresh:4; url=register.php');
             }
             ?>
